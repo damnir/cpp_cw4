@@ -38,12 +38,15 @@ public:
 
 	void virtDraw() override
 	{
-		getEngine()->drawForegroundRectangle(
+		
+		getEngine()->drawForegroundOval(
 			m_iCurrentScreenX - m_iDrawWidth / 2 + 1,
 			m_iCurrentScreenY - m_iDrawHeight / 2 + 1,
 			m_iCurrentScreenX + m_iDrawWidth / 2 - 1,
 			m_iCurrentScreenY + m_iDrawHeight / 2 - 1,
 			0xffffff);
+
+
 	}
 
 	void virtDoUpdate(int iCurrentTime) override
@@ -61,13 +64,17 @@ public:
 		pObject = getEngine()->getDisplayableObject(0);
 		pObject2 = getEngine()->getDisplayableObject(1);
 
+		int xx = 0;
+		int yy = 120;
+
 		bool deadTile = false;
 
-		if (tm.isValidTilePosition(pObject->getXCentre(), pObject->getYCentre()))
+		if (tm.isValidTilePosition(pObject->getXCentre(), pObject->getYCentre()-40))
 		{
 			int mapX = tm.getMapXForScreenX(pObject->getXCentre()); // X pos
-			int mapY = tm.getMapYForScreenY(pObject->getYCentre()); // Y pos
+			int mapY = tm.getMapYForScreenY(pObject->getYCentre()-40); // Y pos
 			int value = tm.getMapValue(mapX, mapY);
+
 			if (value == 0)
 				deadTile = true;
 			//printf("\n%d\n", value);
@@ -77,6 +84,7 @@ public:
 				break;
 			case false:
 				tm.setAndRedrawMapValueAt(mapX, mapY, 0, m_pMainEngine, m_pMainEngine->getBackgroundSurface());
+				tm.redrawTile(m_pMainEngine, m_pMainEngine->getBackgroundSurface(), mapX, mapY, xx+tm.getTileWidth()*mapX, yy+tm.getTileHeight()*mapY);
 				m_pMainEngine->increaseTiles();
 				m_dY = -m_iStartDrawPosY + pObject->getYCentre() + 20;
 				m_dSY = -m_dSY;

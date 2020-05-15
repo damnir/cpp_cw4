@@ -14,10 +14,32 @@ void Psydn1TileManager::virtDrawTileAt(
 	int iStartPositionScreenX, int iStartPositionScreenY) const
 
 {
-	SimpleImage image = ImageManager::loadImage("brick.png", false);
-	image.renderImage(pSurface, iStartPositionScreenX, iStartPositionScreenY, iStartPositionScreenX, iStartPositionScreenY + getTileHeight(), getTileWidth(), getTileHeight());
+	//image.renderImage(pSurface, iStartPositionScreenX, iStartPositionScreenY, iStartPositionScreenX, iStartPositionScreenY + getTileHeight(), getTileWidth(), getTileHeight());
+	image.renderImageWithMaskAndTransparency(pSurface, iStartPositionScreenX, iStartPositionScreenY, iStartPositionScreenX, iStartPositionScreenY + getTileHeight(), getTileWidth(), getTileHeight(), 0, 100);
+	//image2.renderImageWithMaskAndTransparency(pSurface, iStartPositionScreenX, iStartPositionScreenY, iStartPositionScreenX, iStartPositionScreenY + getTileHeight(), getTileWidth(), getTileHeight(), 0, 60);
 
 }
+
+void Psydn1TileManager::redrawTile(
+	BaseEngine* pEngine,
+	DrawingSurface* pSurface,
+	int iMapX, int iMapY,
+	int iStartPositionScreenX, int iStartPositionScreenY)
+
+{
+	pSurface->mySDLLockSurface();
+
+	//pSurface->fillSurface(0);
+	//image2.renderImage(pSurface, iStartPositionScreenX, iStartPositionScreenY, iStartPositionScreenX, iStartPositionScreenY + getTileHeight(), getTileWidth(), getTileHeight());
+	image2.renderImageWithMaskAndTransparency(pSurface, iStartPositionScreenX, iStartPositionScreenY, iStartPositionScreenX, iStartPositionScreenY + getTileHeight(), getTileWidth(), getTileHeight(), 0, 60);
+	//image2.resizeTo(20, 20);
+
+	pSurface->mySDLUnlockSurface();
+
+
+}
+
+
 
 
 
