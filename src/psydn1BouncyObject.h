@@ -76,6 +76,8 @@ public:
 			int mapY = tm.getMapYForScreenY(pObject->getYCentre()-50); // Y pos
 			int value = tm.getMapValue(mapX, mapY);
 
+			printf("MapX value: %d MapY value: %d\n", mapX, mapY);
+
 			if (value == 0)
 				deadTile = true;
 
@@ -89,6 +91,8 @@ public:
 				m_pMainEngine->increaseTiles();
 				m_dY = -m_iStartDrawPosY + pObject->getYCentre() + 20;
 				m_dSY = -m_dSY;
+				m_pMainEngine->hitDetected();
+
 			}
 		}
 

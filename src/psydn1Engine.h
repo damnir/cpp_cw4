@@ -17,6 +17,11 @@ public:
 
 	void increaseTiles() { tiles++; }
 	void increaseDeaths() { deaths++; }
+	void hitDetected() {
+		gState = Smain;
+		lockAndSetupBackground();
+		redrawDisplay();
+	}
 
 	Psydn1TileManager& GetTileManager() { return tm; }
 
@@ -27,8 +32,10 @@ public:
 	int virtInitialiseObjects();
 	bool start = false;
 	Psydn1TileManager tm;
+
 	enum State {Sinit, Smain, Spaused};
-private:
 	State gState;
+
+private:
 };
 

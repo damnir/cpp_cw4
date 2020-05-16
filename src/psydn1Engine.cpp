@@ -4,6 +4,7 @@
 #include "BaseEngine.h"
 #include "Psydn1BouncyObject.h"
 #include "Psydn1BarObject.h"
+#include <iostream>
 
 Psydn1Engine::Psydn1Engine() : gState(Sinit) { this->pause(); }
 
@@ -12,24 +13,63 @@ Psydn1Engine::~Psydn1Engine() {}
 void Psydn1Engine::virtSetupBackgroundBuffer()
 {
 
-	fillBackground(0);
-	drawBackgroundLine(0, 790, 1300, 790, 0xff0000); //red zone line
-	
-	int c = 1; //tile colours
-	for (int i = 0; i < 15; i++)
+	switch (gState)
 	{
-		for (int j = 0; j < 7; j++)
+	case Sinit:
+	{
+		fillBackground(0);
+		drawBackgroundLine(0, 790, 1300, 790, 0xff0000); //red zone line
+
+		int c = 1; //tile colours
+		for (int i = 0; i < 15; i++)
 		{
-			tm.setMapValue(i, j, c);
+			for (int j = 0; j < 7; j++)
+			{
+				tm.setMapValue(i, j, c);
+			}
 		}
+
+		SimpleImage image = ImageManager::loadImage("background.png", false);
+		image.renderImage(getBackgroundSurface(), 0, 0, 0, 0, image.getWidth(), image.getHeight());
+
+		tm.setTopLeftPositionOnScreen(0, 120);
+		tm.drawAllTiles(this, getBackgroundSurface());
+		//tm.virtDrawTileAt(this, getBackgroundSurface(), 1, 1, NULL, 120);
+		std::cout << gState;
+		break;
 	}
 	
-	SimpleImage image = ImageManager::loadImage("background.png", false);
-	image.renderImage(getBackgroundSurface(), 0, 0, 0, 0, image.getWidth(), image.getHeight());
 
-	tm.setTopLeftPositionOnScreen(0, 120);
-    tm.drawAllTiles(this, getBackgroundSurface());
-	//tm.virtDrawTileAt(this, getBackgroundSurface(), 1, 1, NULL, 120);
+	case Smain:
+	{
+		SimpleImage image = ImageManager::loadImage("background.png", false);
+		image.renderImage(getBackgroundSurface(), 0, 0, 0, 0, image.getWidth(), image.getHeight());
+
+		int xx = 0;
+		int yy = 120;
+
+		for (int i = 0; i < 7; i++)
+		{
+			for (int j = 0; j < 13; j++)
+			{
+				int value = tm.getMapValue(j, i);
+				if (value != 0)
+				{
+					tm.virtDrawTileAt(this, getBackgroundSurface(), j, i, xx + tm.getTileWidth()*j, yy + tm.getTileHeight()*i);
+				}
+			}
+		}
+		break;
+	}
+
+	case Spaused:
+		fillBackground(0);
+		std::cout << gState;
+
+		break;
+		
+	
+	}
 }
 
 
@@ -83,10 +123,20 @@ void Psydn1Engine::virtDrawStringsUnderneath()
 
 void Psydn1Engine::virtMouseDown(int iButton, int iX, int iY)
 {
+	/*
+	
 	if (this->isPaused() && start)
 		this->unpause();
 	else
 		this->pause();
+		*/
+		
+	gState = Smain;
+	lockAndSetupBackground();
+	redrawDisplay();
+	//string s = to_string(gState);
+
+
 }
 
 void Psydn1Engine::virtKeyDown(int iKeyCode)
