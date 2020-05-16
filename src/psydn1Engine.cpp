@@ -17,10 +17,8 @@ void Psydn1Engine::virtSetupBackgroundBuffer()
 	{
 	case Sinit:
 	{
-
-		//drawBackgroundLine(0, 790, 1300, 790, 0xff0000); //red zone line
-
-		int c = 1; //set all tiles to value 1
+		//set all tiles to value 1
+		int c = 1; 
 		for (int i = 0; i < 15; i++)
 		{
 			for (int j = 0; j < 7; j++)
@@ -29,34 +27,23 @@ void Psydn1Engine::virtSetupBackgroundBuffer()
 			}
 		}
 
-		//tm.drawAllTiles(this, getBackgroundSurface()); //initial tile spawn
-		fillBackground(12); //draw background over the tiles
-
-
-		//SimpleImage image = ImageManager::loadImage("background.png", false);
-		//image.renderImage(getBackgroundSurface(), 0, 0, 0, 0, image.getWidth(), image.getHeight());
-
-		tm.setTopLeftPositionOnScreen(0, 120);
-		//tm.drawAllTiles(this, getBackgroundSurface());
-		//tm.virtDrawTileAt(this, getBackgroundSurface(), 1, 1, NULL, 120);
-		//std::cout << gState;
+		fillBackground(12); //background
+		tm.setTopLeftPositionOnScreen(0, 120); //initial tiles position
 		break;
 	}
 	
 
 	case Smain:
 	{
-
+		//Show the objects
+		setAllObjectsVisible(true);
 		fillBackground(12);
 		drawBackgroundLine(0, 790, 1300, 790, 0xff0000); //red zone line
-
-
-		//SimpleImage image = ImageManager::loadImage("background.png", false);
-		//image.renderImage(getBackgroundSurface(), 0, 0, 0, 0, image.getWidth(), image.getHeight());
-
+		//top left position on screen
 		int xx = 0;
 		int yy = 120;
-		//draw tiles that are not dead
+
+		//draw tiles that are not dead (value not 0)
 		for (int i = 0; i < 7; i++)
 		{
 			for (int j = 0; j < 13; j++)
@@ -72,19 +59,15 @@ void Psydn1Engine::virtSetupBackgroundBuffer()
 	}
 
 	case Spaused:
-		fillBackground(0);
+		/*fillBackground(0);
 		std::cout << gState;
-
-		break;
-		
-	
+		break;*/
 	}
 }
 
 
 int Psydn1Engine::virtInitialiseObjects()
 {
-
 	drawableObjectsChanged();
 
 	destroyOldObjects(true);
@@ -92,7 +75,6 @@ int Psydn1Engine::virtInitialiseObjects()
 	createObjectArray(2);
 	storeObjectInArray(0, new Psydn1BouncyObject(this));
 	storeObjectInArray(1, new Psydn1BarObject(this));
-
 	setAllObjectsVisible(false);
 
 	return 0;

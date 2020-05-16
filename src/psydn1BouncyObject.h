@@ -39,7 +39,8 @@ public:
 
 	void virtDraw() override
 	{
-		
+		if (!isVisible())
+			return;
 		getEngine()->drawForegroundOval(
 			m_iCurrentScreenX - m_iDrawWidth / 2 + 1,
 			m_iCurrentScreenY - m_iDrawHeight / 2 + 1,

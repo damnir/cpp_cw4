@@ -10,13 +10,15 @@ Psydn1BarObject::~Psydn1BarObject() {}
 
 void Psydn1BarObject::virtDraw()
 {
+	if (!isVisible())
+		return;
 	
 	getEngine()->drawForegroundRectangle(
 		m_iCurrentScreenX, m_iCurrentScreenY,
 		m_iCurrentScreenX + m_iDrawWidth - 1,
 		m_iCurrentScreenY + m_iDrawHeight - 1,
 		0x0022ff);
-	setVisible(false);
+	setVisible(true);
 		
 
 }

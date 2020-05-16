@@ -10,6 +10,7 @@ public:
 	Psydn1Engine();
 	~Psydn1Engine();
 	void virtSetupBackgroundBuffer();
+	int virtInitialiseObjects() override;
 	void virtDrawStringsOnTop() override;
 	void virtDrawStringsUnderneath() override;
 	void virtMouseDown(int iButton, int iX, int iY) override;
@@ -29,7 +30,6 @@ protected:
 public:
 	int tiles = 0;
 	int deaths = 0;
-	virtual int virtInitialiseObjects() override;
 	bool start = false;
 
 	Psydn1TileManager tm;
