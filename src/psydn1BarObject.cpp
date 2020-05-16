@@ -17,7 +17,7 @@ void Psydn1BarObject::virtDraw()
 		m_iCurrentScreenX, m_iCurrentScreenY,
 		m_iCurrentScreenX + m_iDrawWidth - 1,
 		m_iCurrentScreenY + m_iDrawHeight - 1,
-		0x0022ff);
+		0xffffff);
 	setVisible(true);
 		
 

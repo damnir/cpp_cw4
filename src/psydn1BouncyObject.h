@@ -46,7 +46,7 @@ public:
 			m_iCurrentScreenY - m_iDrawHeight / 2 + 1,
 			m_iCurrentScreenX + m_iDrawWidth / 2 - 1,
 			m_iCurrentScreenY + m_iDrawHeight / 2 - 1,
-			0xffffff);
+			0x0022aa);
 
 
 	}
@@ -71,10 +71,10 @@ public:
 
 		bool deadTile = false;
 
-		if (tm.isValidTilePosition(pObject->getXCentre(), pObject->getYCentre()-50))
+		if (tm.isValidTilePosition(pObject->getXCentre(), pObject->getYCentre()-60))
 		{
 			int mapX = tm.getMapXForScreenX(pObject->getXCentre()); // X pos
-			int mapY = tm.getMapYForScreenY(pObject->getYCentre()-50); // Y pos
+			int mapY = tm.getMapYForScreenY(pObject->getYCentre()-60); // Y pos
 			int value = tm.getMapValue(mapX, mapY);
 
 			printf("MapX value: %d MapY value: %d\n", mapX, mapY);

@@ -6,7 +6,7 @@
 #include "Psydn1BarObject.h"
 #include <iostream>
 
-Psydn1Engine::Psydn1Engine() : gState(Sinit) { this->pause(); }
+Psydn1Engine::Psydn1Engine() : gState(s_init) { this->pause(); }
 
 Psydn1Engine::~Psydn1Engine() {}
 
@@ -15,7 +15,7 @@ void Psydn1Engine::virtSetupBackgroundBuffer()
 
 	switch (gState)
 	{
-	case Sinit:
+	case s_init:
 	{
 		//set all tiles to value 1
 		int c = 1; 
@@ -33,7 +33,7 @@ void Psydn1Engine::virtSetupBackgroundBuffer()
 	}
 	
 
-	case Smain:
+	case s_main:
 	{
 		//Show the objects
 		setAllObjectsVisible(true);
@@ -58,10 +58,11 @@ void Psydn1Engine::virtSetupBackgroundBuffer()
 		break;
 	}
 
-	case Spaused:
+	case s_paused:
 		/*fillBackground(0);
 		std::cout << gState;
-		break;*/
+		*/
+		break;
 	}
 }
 
@@ -86,7 +87,21 @@ void Psydn1Engine::virtDrawStringsOnTop()
 {
 	switch (gState)
 	{
-	case Smain:
+	case s_init:
+		char newGame[128];
+		char loadGame[128];
+		char quitGame[128];
+
+		sprintf(newGame, "[N] New Game");
+		sprintf(loadGame, "[L] Load Game");
+		sprintf(quitGame, "[Q] Quit Game");
+
+		drawForegroundString(550, 350, newGame, 0xffffff, NULL);
+		drawForegroundString(550, 390, loadGame, 0xffffff, NULL);
+		drawForegroundString(550, 430, quitGame, 0xffffff, NULL);
+		break;
+
+	case s_main:
 		int remainingTiles = (15 * 6 + 1) - tiles;
 		// Build the string to print
 		char buf1[128];
@@ -104,12 +119,14 @@ void Psydn1Engine::virtDrawStringsOnTop()
 			drawForegroundString(600, 400, "---PAUSED---", 0xff00ff, NULL);
 
 		if (!start)
-			drawForegroundString(500, 400, "Press 'SPACE' to start.", 0xffffff, NULL);
+			drawForegroundString(500, 500, "Press 'SPACE' to start.", 0xffffff, NULL);
 		if (remainingTiles == 0)
 		{
 			setExitWithCode(0);
 			return;
 		}
+		break;
+
 	}
 
 
@@ -119,8 +136,8 @@ void Psydn1Engine::virtDrawStringsUnderneath()
 {
 	switch (gState)
 	{
-	case Smain:
-		drawForegroundString(600, 750, "Break0ut", 0xff00ff, NULL);
+	case s_main:
+		drawForegroundString(600, 750, "Break0ut", 0xffffff, NULL);
 	}
 }
 
@@ -135,7 +152,7 @@ void Psydn1Engine::virtMouseDown(int iButton, int iX, int iY)
 		
 		
 	/*
-	gState = Smain;
+	gState = s_main;
 	lockAndSetupBackground();
 	redrawDisplay();
 	//string s = to_string(gState);
@@ -151,9 +168,9 @@ void Psydn1Engine::virtKeyDown(int iKeyCode)
 		start = true;
 		this->unpause();
 	}
-	if (iKeyCode == SDLK_1)
+	if (iKeyCode == SDLK_n)
 	{
-		gState = Smain;
+		gState = s_main;
 		lockAndSetupBackground();
 		redrawDisplay();
 	}

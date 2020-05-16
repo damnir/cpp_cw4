@@ -19,7 +19,7 @@ public:
 	void increaseTiles() { tiles++; }
 	void increaseDeaths() { deaths++; }
 	void hitDetected() {
-		gState = Smain;
+		gState = s_main;
 		lockAndSetupBackground();
 		redrawDisplay();
 	}
@@ -34,7 +34,7 @@ public:
 
 	Psydn1TileManager tm;
 
-	enum State {Sinit, Smain, Spaused};
+	enum State {s_init, s_main, s_paused};
 	State gState;
 
 private:
