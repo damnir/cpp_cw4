@@ -29,8 +29,9 @@ protected:
 public:
 	int tiles = 0;
 	int deaths = 0;
-	int virtInitialiseObjects();
+	virtual int virtInitialiseObjects() override;
 	bool start = false;
+
 	Psydn1TileManager tm;
 
 	enum State {Sinit, Smain, Spaused};
