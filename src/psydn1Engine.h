@@ -27,5 +27,8 @@ public:
 	int virtInitialiseObjects();
 	bool start = false;
 	Psydn1TileManager tm;
+	enum State {Sinit, Smain, Spaused};
+private:
+	State gState;
 };
 

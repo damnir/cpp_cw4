@@ -5,6 +5,7 @@
 #include "DisplayableObject.h"
 #include "CollisionDetection.h"
 #include "Psydn1Engine.h"
+#include <time.h>
 
 using namespace std;
 
@@ -69,15 +70,15 @@ public:
 
 		bool deadTile = false;
 
-		if (tm.isValidTilePosition(pObject->getXCentre(), pObject->getYCentre()-40))
+		if (tm.isValidTilePosition(pObject->getXCentre(), pObject->getYCentre()-50))
 		{
 			int mapX = tm.getMapXForScreenX(pObject->getXCentre()); // X pos
-			int mapY = tm.getMapYForScreenY(pObject->getYCentre()-40); // Y pos
+			int mapY = tm.getMapYForScreenY(pObject->getYCentre()-50); // Y pos
 			int value = tm.getMapValue(mapX, mapY);
 
 			if (value == 0)
 				deadTile = true;
-			//printf("\n%d\n", value);
+
 			switch (deadTile)
 			{
 			case true:

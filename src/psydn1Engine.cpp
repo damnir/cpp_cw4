@@ -5,27 +5,15 @@
 #include "Psydn1BouncyObject.h"
 #include "Psydn1BarObject.h"
 
-Psydn1Engine::Psydn1Engine() { this->pause(); }
+Psydn1Engine::Psydn1Engine() : gState(Sinit) { this->pause(); }
 
 Psydn1Engine::~Psydn1Engine() {}
 
 void Psydn1Engine::virtSetupBackgroundBuffer()
 {
+
 	fillBackground(0);
 	drawBackgroundLine(0, 790, 1300, 790, 0xff0000); //red zone line
-
-	int d = 25;
-
-	for (int i = 0; i < getWindowWidth() / 15; i++) //background lines
-	{
-		drawBackgroundLine(0, d, d, 0, 0x003333);
-		drawBackgroundLine(getWindowWidth(), d, getWindowWidth() - d, 0, 0x003333);
-
-		d += 25;
-	}
-
-
-
 	
 	int c = 1; //tile colours
 	for (int i = 0; i < 15; i++)
@@ -36,14 +24,13 @@ void Psydn1Engine::virtSetupBackgroundBuffer()
 		}
 	}
 	
+	SimpleImage image = ImageManager::loadImage("background.png", false);
+	image.renderImage(getBackgroundSurface(), 0, 0, 0, 0, image.getWidth(), image.getHeight());
 
 	tm.setTopLeftPositionOnScreen(0, 120);
-	tm.drawAllTiles(this, getBackgroundSurface());
-
-	SimpleImage image = ImageManager::loadImage("psydn1Image.png", false);
-	image.renderImage(getBackgroundSurface(), 0, 0, 1050, 10, image.getWidth(), image.getHeight());
+    tm.drawAllTiles(this, getBackgroundSurface());
+	//tm.virtDrawTileAt(this, getBackgroundSurface(), 1, 1, NULL, 120);
 }
-
 
 
 int Psydn1Engine::virtInitialiseObjects()

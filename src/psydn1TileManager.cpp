@@ -31,10 +31,14 @@ void Psydn1TileManager::redrawTile(
 
 	//pSurface->fillSurface(0);
 	//image2.renderImage(pSurface, iStartPositionScreenX, iStartPositionScreenY, iStartPositionScreenX, iStartPositionScreenY + getTileHeight(), getTileWidth(), getTileHeight());
-	image2.renderImageWithMaskAndTransparency(pSurface, iStartPositionScreenX, iStartPositionScreenY, iStartPositionScreenX, iStartPositionScreenY + getTileHeight(), getTileWidth(), getTileHeight(), 0, 60);
+	image2.renderImageWithMaskAndTransparency(pSurface, iStartPositionScreenX, iStartPositionScreenY, iStartPositionScreenX, iStartPositionScreenY + getTileHeight(), getTileWidth(), getTileHeight(), 0, 65);
 	//image2.resizeTo(20, 20);
-
+	//image.setTransparencyColour(32498);
+	//image.renderImageWithMaskAndTransparency(pSurface, iStartPositionScreenX, iStartPositionScreenY, iStartPositionScreenX, iStartPositionScreenY + getTileHeight(), getTileWidth(), getTileHeight(), 1, 100);
 	pSurface->mySDLUnlockSurface();
+	
+
+	
 
 
 }

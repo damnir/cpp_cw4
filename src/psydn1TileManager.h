@@ -1,6 +1,8 @@
 #pragma once
 
 #include "TileManager.h"
+#include <vector>
+
 
 class Psydn1TileManager :
 	public TileManager
@@ -11,6 +13,8 @@ public:
 
 	SimpleImage image = ImageManager::loadImage("brick.png", true);
 	SimpleImage image2 = ImageManager::loadImage("brickdead.png", true);
+
+	std::vector<SimpleImage> bricks;
 
 
 

@@ -12,5 +12,6 @@ public:
 
 	void virtDraw() override;
 	void virtDoUpdate(int iCurrentTime) override;
+
 };
 
