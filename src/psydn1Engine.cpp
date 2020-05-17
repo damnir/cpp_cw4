@@ -16,6 +16,7 @@ void Psydn1Engine::virtSetupBackgroundBuffer()
 	{
 	case s_init:
 	{
+		clearName();
 		//set all tiles to value 1
 		int c = 2; 
 		for (int i = 0; i < 15; i++)
@@ -74,7 +75,11 @@ void Psydn1Engine::virtSetupBackgroundBuffer()
 		std::cout << gState;
 		*/
 		break;
+	case s_nickname:
+		break;
 	}
+
+
 }
 
 
@@ -120,6 +125,8 @@ void Psydn1Engine::virtDrawStringsOnTop()
 
 		drawForegroundString(550, 350, enterName, 0xffffff, NULL);
 		drawForegroundString(590, 390, nameField, 0xffffff, NULL);
+		drawForegroundString(100, 100, "'ESC'/'ESCAPE' to go back", 0xffffff, NULL);
+
 
 		if (!validName)
 			drawForegroundString(420, 430, fieldValid, 0xff5555, NULL);
@@ -305,6 +312,13 @@ void Psydn1Engine::virtKeyDown(int iKeyCode)
 				nameChars--;
 				name[nameChars] = '-';
 			}
+		}
+		if (iKeyCode == SDLK_ESCAPE)
+		{
+			gState = s_init;
+			lockAndSetupBackground();
+			redrawDisplay();
+			break;
 		}
 		gState = s_nickname;
 		lockAndSetupBackground();

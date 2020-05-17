@@ -80,6 +80,7 @@ public:
 		printf("Loaded successfullyfa");
 		infile >> tiles;
 		infile >> deaths;
+		name = loadName;
 		infile.close();
 	}
 	void loadSaveData()
@@ -115,6 +116,7 @@ public:
 
 	std::vector<std::string> names;
 	std::string name = ("----------");
+	void clearName(){name = ("----------");}
 
 	int nameChars = 0;
 	bool validName = true;
