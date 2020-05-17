@@ -2,7 +2,7 @@
 #include "Psydn1TileManager.h"
 
 Psydn1TileManager::Psydn1TileManager()
-	: TileManager(40, 100, 15, 7) {}
+	: TileManager(40, 100, 15, 10) {}
 
 Psydn1TileManager::~Psydn1TileManager(){}
 

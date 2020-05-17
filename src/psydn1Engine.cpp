@@ -26,7 +26,7 @@ void Psydn1Engine::virtSetupBackgroundBuffer()
 				{
 					tm.setMapValue(i, j, c);
 				}
-				else if (j < 7)
+				else if (j < 9)
 				{
 					tm.setMapValue(i, j, c - 1);
 				}
@@ -142,7 +142,12 @@ void Psydn1Engine::virtDrawStringsOnTop()
 		drawForegroundString(500, 40, buf2, 0xffffff, NULL);
 		drawForegroundString(850, 40, buf3, 0xffffff, NULL);
 		if (this->isPaused() && start)
-			drawForegroundString(600, 400, "---PAUSED---", 0xff00ff, NULL);
+		{
+			drawForegroundString(565, 400, "---PAUSED---", 0xff00ff, NULL);
+			drawForegroundString(550, 450, "[S] Save Game", 0xffffff, NULL);
+			drawForegroundString(550, 480, "[M] Main Menu", 0xffffff, NULL);
+			drawForegroundString(550, 510, "[Q] Quit Game", 0xffffff, NULL);
+		}
 
 		if (!start)
 			drawForegroundString(500, 500, "Press 'SPACE' to start.", 0xffffff, NULL);
@@ -183,12 +188,24 @@ void Psydn1Engine::virtKeyDown(int iKeyCode)
 			start = true;
 			this->unpause();
 		}
+		if (iKeyCode == SDLK_s && (this->isPaused() && start))
+		{
+			printf("sucessfuly saved");
+			saveGame();
+		}
 		break;
 	
 	case (s_init):
 		if (iKeyCode == SDLK_n)
 		{
 			gState = s_nickname;
+			lockAndSetupBackground();
+			redrawDisplay();
+		}
+		if (iKeyCode == SDLK_l)
+		{
+			loadGame();
+			gState = s_main;
 			lockAndSetupBackground();
 			redrawDisplay();
 		}
