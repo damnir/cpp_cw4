@@ -11,13 +11,17 @@ void Psydn1TileManager::virtDrawTileAt(
 	BaseEngine* pEngine,
 	DrawingSurface* pSurface,
 	int iMapX, int iMapY,
-	int iStartPositionScreenX, int iStartPositionScreenY) const
+	int iStartPositionScreenX, int iStartPositionScreenY, int state) const
 
 {
-	//image.renderImage(pSurface, iStartPositionScreenX, iStartPositionScreenY, iStartPositionScreenX, iStartPositionScreenY + getTileHeight(), getTileWidth(), getTileHeight());
-	image.renderImageWithMaskAndTransparency(pSurface, iStartPositionScreenX, iStartPositionScreenY, iStartPositionScreenX, iStartPositionScreenY + getTileHeight(), getTileWidth(), getTileHeight(), 0, 100);
-	//image2.renderImageWithMaskAndTransparency(pSurface, iStartPositionScreenX, iStartPositionScreenY, iStartPositionScreenX, iStartPositionScreenY + getTileHeight(), getTileWidth(), getTileHeight(), 0, 60);
-
+	if (state == 2)
+	{
+		image.renderImageWithMaskAndTransparency(pSurface, iStartPositionScreenX, iStartPositionScreenY, iStartPositionScreenX, iStartPositionScreenY + getTileHeight(), getTileWidth(), getTileHeight(), 0, 100);
+	}
+	if (state == 1)
+	{
+		image2.renderImageWithMaskAndTransparency(pSurface, iStartPositionScreenX, iStartPositionScreenY, iStartPositionScreenX, iStartPositionScreenY + getTileHeight(), getTileWidth(), getTileHeight(), 0, 100);
+	}
 }
 
 void Psydn1TileManager::redrawTile(

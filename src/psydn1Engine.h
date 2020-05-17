@@ -24,6 +24,7 @@ public:
 		redrawDisplay();
 	}
 
+	SimpleImage background = ImageManager::loadImage("background.jpg", true);
 	Psydn1TileManager& GetTileManager() { return tm; }
 
 protected:
@@ -31,11 +32,12 @@ public:
 	int tiles = 0;
 	int deaths = 0;
 	bool start = false;
+
+	//user input variables
 	char name[10] = ("---------");
 	int nameChars = 0;
 	bool validName = true;
-
-
+	
 	Psydn1TileManager tm;
 
 	enum State {s_init, s_main, s_paused, s_nickname};

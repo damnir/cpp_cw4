@@ -70,6 +70,7 @@ public:
 		int yy = 120;
 
 		bool deadTile = false;
+		
 
 		if (tm.isValidTilePosition(pObject->getXCentre(), pObject->getYCentre()-60))
 		{
@@ -77,7 +78,7 @@ public:
 			int mapY = tm.getMapYForScreenY(pObject->getYCentre()-60); // Y pos
 			int value = tm.getMapValue(mapX, mapY);
 
-			printf("MapX value: %d MapY value: %d\n", mapX, mapY);
+			//printf("MapX value: %d MapY value: %d\n", mapX, mapY);
 
 			if (value == 0)
 				deadTile = true;
@@ -87,9 +88,16 @@ public:
 			case true:
 				break;
 			case false:
-				tm.setAndRedrawMapValueAt(mapX, mapY, 0, m_pMainEngine, m_pMainEngine->getBackgroundSurface());
-				tm.redrawTile(m_pMainEngine, m_pMainEngine->getBackgroundSurface(), mapX, mapY, xx+tm.getTileWidth()*mapX, yy+tm.getTileHeight()*mapY);
-				m_pMainEngine->increaseTiles();
+				if (value == 1)
+				{
+					tm.setAndRedrawMapValueAt(mapX, mapY, 0, m_pMainEngine, m_pMainEngine->getBackgroundSurface());
+					//tm.redrawTile(m_pMainEngine, m_pMainEngine->getBackgroundSurface(), mapX, mapY, xx+tm.getTileWidth()*mapX, yy+tm.getTileHeight()*mapY);
+					m_pMainEngine->increaseTiles();
+				}
+				if (value == 2)
+				{
+					tm.setAndRedrawMapValueAt(mapX, mapY, 1, m_pMainEngine, m_pMainEngine->getBackgroundSurface());
+				}
 				m_dY = -m_iStartDrawPosY + pObject->getYCentre() + 20;
 				m_dSY = -m_dSY;
 				m_pMainEngine->hitDetected();

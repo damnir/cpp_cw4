@@ -11,18 +11,16 @@ public:
 	Psydn1TileManager();
 	~Psydn1TileManager();
 
-	SimpleImage image = ImageManager::loadImage("brick.png", true);
-	SimpleImage image2 = ImageManager::loadImage("brickdead.png", true);
+	SimpleImage image = ImageManager::loadImage("brick.png", false);
+	SimpleImage image2 = ImageManager::loadImage("brick2.png", false);
 
 	std::vector<SimpleImage> bricks;
-
-
 
 	virtual void virtDrawTileAt(
 		BaseEngine* pEngine,
 		DrawingSurface* pSurface,
 		int iMapX, int iMapY,
-		int iStartPositionScreenX, int iStartPositionScreenY) const;
+		int iStartPositionScreenX, int iStartPositionScreenY, int state) const;
 
 	virtual void redrawTile(
 		BaseEngine* pEngine,

@@ -12,18 +12,24 @@ Psydn1Engine::~Psydn1Engine() {}
 
 void Psydn1Engine::virtSetupBackgroundBuffer()
 {
-
 	switch (gState)
 	{
 	case s_init:
 	{
 		//set all tiles to value 1
-		int c = 1; 
+		int c = 2; 
 		for (int i = 0; i < 15; i++)
 		{
 			for (int j = 0; j < 7; j++)
 			{
-				tm.setMapValue(i, j, c);
+				if (j < 5)
+				{
+					tm.setMapValue(i, j, c);
+				}
+				else if (j < 7)
+				{
+					tm.setMapValue(i, j, c - 1);
+				}
 			}
 		}
 
@@ -32,12 +38,13 @@ void Psydn1Engine::virtSetupBackgroundBuffer()
 		break;
 	}
 	
-
 	case s_main:
 	{
 		//Show the objects
 		setAllObjectsVisible(true);
 		fillBackground(12);
+		//background.renderImage(getBackgroundSurface(), 0, 0, 0, 0, 1300, 800);
+
 		drawBackgroundLine(0, 790, 1300, 790, 0xff0000); //red zone line
 		//top left position on screen
 		int xx = 0;
@@ -49,9 +56,13 @@ void Psydn1Engine::virtSetupBackgroundBuffer()
 			for (int j = 0; j < 13; j++)
 			{
 				int value = tm.getMapValue(j, i);
-				if (value != 0)
+				if (value == 2)
 				{
-					tm.virtDrawTileAt(this, getBackgroundSurface(), j, i, xx + tm.getTileWidth()*j, yy + tm.getTileHeight()*i);
+					tm.virtDrawTileAt(this, getBackgroundSurface(), j, i, xx + tm.getTileWidth()*j, yy + tm.getTileHeight()*i, 2);
+				}
+				if (value == 1)
+				{
+					tm.virtDrawTileAt(this, getBackgroundSurface(), j, i, xx + tm.getTileWidth()*j, yy + tm.getTileHeight()*i, 1);
 				}
 			}
 		}
@@ -70,7 +81,6 @@ void Psydn1Engine::virtSetupBackgroundBuffer()
 int Psydn1Engine::virtInitialiseObjects()
 {
 	drawableObjectsChanged();
-
 	destroyOldObjects(true);
 
 	createObjectArray(2);
@@ -79,8 +89,6 @@ int Psydn1Engine::virtInitialiseObjects()
 	setAllObjectsVisible(false);
 
 	return 0;
-
-
 }
 
 void Psydn1Engine::virtDrawStringsOnTop()
@@ -106,8 +114,6 @@ void Psydn1Engine::virtDrawStringsOnTop()
 		char nameField[128];
 		char fieldValid[128];
 
-
-
 		sprintf(enterName, "Enter Nickname");
 		sprintf(fieldValid, "Please enter at least 3 characters.");
 		sprintf(nameField, name);
@@ -116,13 +122,9 @@ void Psydn1Engine::virtDrawStringsOnTop()
 		drawForegroundString(590, 390, nameField, 0xffffff, NULL);
 
 		if (!validName)
-		{
 			drawForegroundString(420, 430, fieldValid, 0xff5555, NULL);
-		}
 
 		//getBackgroundSurface()->drawShortenedArrow(100, 100, 120, 120, 0, 0, 0, 2, 2);
-
-
 		break;
 
 	case s_main:
@@ -150,11 +152,7 @@ void Psydn1Engine::virtDrawStringsOnTop()
 			return;
 		}
 		break;
-
 	}
-
-
-
 }
 
 void Psydn1Engine::virtDrawStringsUnderneath()
@@ -168,28 +166,17 @@ void Psydn1Engine::virtDrawStringsUnderneath()
 
 void Psydn1Engine::virtMouseDown(int iButton, int iX, int iY)
 {
-	
-	
 	if (this->isPaused() && start)
 		this->unpause();
 	else
 		this->pause();
-		
-		
-	/*
-	gState = s_main;
-	lockAndSetupBackground();
-	redrawDisplay();
-	//string s = to_string(gState);
-	*/
-
-
 }
 
 void Psydn1Engine::virtKeyDown(int iKeyCode)
 {
 	switch (gState)
 	{
+	
 	case (s_main):
 		if (iKeyCode == SDLK_SPACE)
 		{
@@ -197,6 +184,7 @@ void Psydn1Engine::virtKeyDown(int iKeyCode)
 			this->unpause();
 		}
 		break;
+	
 	case (s_init):
 		if (iKeyCode == SDLK_n)
 		{
@@ -204,7 +192,13 @@ void Psydn1Engine::virtKeyDown(int iKeyCode)
 			lockAndSetupBackground();
 			redrawDisplay();
 		}
+		if (iKeyCode == SDLK_q)
+		{
+			setExitWithCode(0);
+			return;
+		}
 		break;
+	
 	case (s_nickname):
 		
 		validName = true;

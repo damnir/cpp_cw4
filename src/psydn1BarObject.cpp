@@ -30,9 +30,9 @@ void Psydn1BarObject::virtDoUpdate(int iCurrentTime)
 		return;
 
 	if (getEngine()->isKeyPressed(SDLK_LEFT))
-		m_iCurrentScreenX -= 8;
+		m_iCurrentScreenX -= 6;
 	if (getEngine()->isKeyPressed(SDLK_RIGHT))
-		m_iCurrentScreenX += 8;
+		m_iCurrentScreenX += 6;
 	if (getEngine()->isKeyPressed(SDLK_UP) && thing)
 	{
 		m_iDrawWidth = m_iDrawWidth + 40;
