@@ -116,7 +116,7 @@ public:
 
 	std::vector<std::string> names;
 	std::string name = ("----------");
-	void clearName(){name = ("----------");}
+	void clearName() { name = ("----------"); nameChars = 0; }
 
 	int nameChars = 0;
 	bool validName = true;
