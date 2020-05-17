@@ -116,7 +116,7 @@ void Psydn1Engine::virtDrawStringsOnTop()
 
 		sprintf(enterName, "Enter Nickname");
 		sprintf(fieldValid, "Please enter at least 3 characters.");
-		sprintf(nameField, name);
+		sprintf(nameField, name.c_str());
 
 		drawForegroundString(550, 350, enterName, 0xffffff, NULL);
 		drawForegroundString(590, 390, nameField, 0xffffff, NULL);
@@ -125,6 +125,29 @@ void Psydn1Engine::virtDrawStringsOnTop()
 			drawForegroundString(420, 430, fieldValid, 0xff5555, NULL);
 
 		//getBackgroundSurface()->drawShortenedArrow(100, 100, 120, 120, 0, 0, 0, 2, 2);
+		break;
+	case s_loadscreen:
+		loadSaveData();
+		drawForegroundString(500, 350, names[0].c_str(), 0xffffff, NULL);
+		drawForegroundString(500, 380, names[1].c_str(), 0xffffff, NULL);
+		drawForegroundString(500, 410, names[2].c_str(), 0xffffff, NULL);
+		drawForegroundString(500, 440, names[3].c_str(), 0xffffff, NULL);
+		drawForegroundString(500, 470, names[4].c_str(), 0xffffff, NULL);
+		drawForegroundString(100, 100, "'ESC'/'ESCAPE' to go back", 0xffffff, NULL);
+
+		if (!validLoad)
+			drawForegroundString(400, 540, "Please select a non-empty slot.", 0xff5555, NULL);
+		
+		break;
+
+	case s_savescreen:
+		loadSaveData();
+		drawForegroundString(550, 460, names[0].c_str(), 0xffffff, NULL);
+		drawForegroundString(550, 490, names[1].c_str(), 0xffffff, NULL);
+		drawForegroundString(550, 520, names[2].c_str(), 0xffffff, NULL);
+		drawForegroundString(550, 550, names[3].c_str(), 0xffffff, NULL);
+		drawForegroundString(550, 580, names[4].c_str(), 0xffffff, NULL);
+		drawForegroundString(500, 620, "'Backspace' to go back", 0xaaffff, NULL);
 		break;
 
 	case s_main:
@@ -157,7 +180,10 @@ void Psydn1Engine::virtDrawStringsOnTop()
 			return;
 		}
 		break;
+	
+
 	}
+
 }
 
 void Psydn1Engine::virtDrawStringsUnderneath()
@@ -188,10 +214,40 @@ void Psydn1Engine::virtKeyDown(int iKeyCode)
 			start = true;
 			this->unpause();
 		}
-		if (iKeyCode == SDLK_s && (this->isPaused() && start))
+		if (this->isPaused() && start)
 		{
-			printf("sucessfuly saved");
-			saveGame();
+			if (iKeyCode == SDLK_s)
+			{
+				//printf("sucessfuly saved");
+				//saveGame("saveslot1");
+				gState = s_savescreen;
+				lockAndSetupBackground();
+				redrawDisplay();
+
+			}
+			if (iKeyCode == SDLK_m)
+			{
+				start = false;
+				gState = s_init;
+				drawableObjectsChanged();
+				destroyOldObjects(true);
+				lockAndSetupBackground();
+				redrawDisplay();
+			}
+			if (iKeyCode == SDLK_q)
+			{
+				setExitWithCode(0);
+				return;
+			}
+		}
+		break;
+	case (s_savescreen):
+		if (iKeyCode >= SDLK_1 && iKeyCode <= SDLK_5)
+		{
+			saveGame("saveslot" + to_string(iKeyCode - SDLK_0));
+			gState = s_main;
+			lockAndSetupBackground();
+			redrawDisplay();
 		}
 		break;
 	
@@ -204,8 +260,7 @@ void Psydn1Engine::virtKeyDown(int iKeyCode)
 		}
 		if (iKeyCode == SDLK_l)
 		{
-			loadGame();
-			gState = s_main;
+			gState = s_loadscreen;
 			lockAndSetupBackground();
 			redrawDisplay();
 		}
@@ -224,8 +279,12 @@ void Psydn1Engine::virtKeyDown(int iKeyCode)
 		{
 			if (nameChars < 3)
 				validName = false;
-			else
+			else{
 				gState = s_main;
+				resetGameData();
+				virtInitialiseObjects();
+				setAllObjectsVisible(true);
+			}
 
 			lockAndSetupBackground();
 			redrawDisplay();
@@ -250,5 +309,30 @@ void Psydn1Engine::virtKeyDown(int iKeyCode)
 		gState = s_nickname;
 		lockAndSetupBackground();
 		redrawDisplay();
+		break;
+
+	case (s_loadscreen):
+		if (iKeyCode >= SDLK_1 && iKeyCode <= SDLK_5)
+		{
+			if(names[iKeyCode - SDLK_1].find("Empty") == std::string::npos)
+			{
+				loadGame("saveslot" + to_string(iKeyCode - SDLK_0));
+				gState = s_main;
+				virtInitialiseObjects();
+				setAllObjectsVisible(true);
+			}
+			else			
+				validLoad = false;
+
+			lockAndSetupBackground();
+			redrawDisplay();
+		}
+		if (iKeyCode == SDLK_ESCAPE)
+		{
+			gState = s_init;
+			lockAndSetupBackground();
+			redrawDisplay();
+		}
+		break;
 	}
 }
