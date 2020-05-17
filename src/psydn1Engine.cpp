@@ -101,6 +101,30 @@ void Psydn1Engine::virtDrawStringsOnTop()
 		drawForegroundString(550, 430, quitGame, 0xffffff, NULL);
 		break;
 
+	case s_nickname:
+		char enterName[128];
+		char nameField[128];
+		char fieldValid[128];
+
+
+
+		sprintf(enterName, "Enter Nickname");
+		sprintf(fieldValid, "Please enter at least 3 characters.");
+		sprintf(nameField, name);
+
+		drawForegroundString(550, 350, enterName, 0xffffff, NULL);
+		drawForegroundString(590, 390, nameField, 0xffffff, NULL);
+
+		if (!validName)
+		{
+			drawForegroundString(420, 430, fieldValid, 0xff5555, NULL);
+		}
+
+		//getBackgroundSurface()->drawShortenedArrow(100, 100, 120, 120, 0, 0, 0, 2, 2);
+
+
+		break;
+
 	case s_main:
 		int remainingTiles = (15 * 6 + 1) - tiles;
 		// Build the string to print
@@ -128,6 +152,7 @@ void Psydn1Engine::virtDrawStringsOnTop()
 		break;
 
 	}
+
 
 
 }
@@ -163,14 +188,55 @@ void Psydn1Engine::virtMouseDown(int iButton, int iX, int iY)
 
 void Psydn1Engine::virtKeyDown(int iKeyCode)
 {
-	if (iKeyCode == SDLK_SPACE)
+	switch (gState)
 	{
-		start = true;
-		this->unpause();
-	}
-	if (iKeyCode == SDLK_n)
-	{
-		gState = s_main;
+	case (s_main):
+		if (iKeyCode == SDLK_SPACE)
+		{
+			start = true;
+			this->unpause();
+		}
+		break;
+	case (s_init):
+		if (iKeyCode == SDLK_n)
+		{
+			gState = s_nickname;
+			lockAndSetupBackground();
+			redrawDisplay();
+		}
+		break;
+	case (s_nickname):
+		
+		validName = true;
+
+		if (iKeyCode == SDLK_RETURN)
+		{
+			if (nameChars < 3)
+				validName = false;
+			else
+				gState = s_main;
+
+			lockAndSetupBackground();
+			redrawDisplay();
+			break;
+		}
+		if (nameChars < 10 && nameChars >= 0)
+		{
+			if (iKeyCode >= 97 && iKeyCode <= 122)
+			{
+				name[nameChars] = iKeyCode;
+				nameChars++;
+			}
+		}
+		if (nameChars > 0)
+		{
+			if (iKeyCode == SDLK_BACKSPACE || iKeyCode == SDLK_DELETE)
+			{
+				nameChars--;
+				name[nameChars] = '-';
+			}
+		}
+		gState = s_nickname;
 		lockAndSetupBackground();
 		redrawDisplay();
 	}

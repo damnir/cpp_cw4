@@ -31,10 +31,14 @@ public:
 	int tiles = 0;
 	int deaths = 0;
 	bool start = false;
+	char name[10] = ("---------");
+	int nameChars = 0;
+	bool validName = true;
+
 
 	Psydn1TileManager tm;
 
-	enum State {s_init, s_main, s_paused};
+	enum State {s_init, s_main, s_paused, s_nickname};
 	State gState;
 
 private:
