@@ -4,6 +4,9 @@
 #include "BaseEngine.h"
 #include "Psydn1BouncyObject.h"
 #include "Psydn1BarObject.h"
+#include "psydn1BombObject.h"
+
+
 #include <iostream>
 
 Psydn1Engine::Psydn1Engine() : gState(s_init) { this->pause(); }
@@ -18,7 +21,7 @@ void Psydn1Engine::virtSetupBackgroundBuffer()
 	{
 		clearName();
 		//set all tiles to value 1
-		int c = 2; 
+		int c = 2;
 		for (int i = 0; i < 15; i++)
 		{
 			for (int j = 0; j < 7; j++)
@@ -38,15 +41,19 @@ void Psydn1Engine::virtSetupBackgroundBuffer()
 		tm.setTopLeftPositionOnScreen(0, 120); //initial tiles position
 		break;
 	}
-	
+
 	case s_main:
 	{
 		//Show the objects
 		setAllObjectsVisible(true);
 		fillBackground(12);
-		//background.renderImage(getBackgroundSurface(), 0, 0, 0, 0, 1300, 800);
+		//lockAndSetupBackground();
 
-		drawBackgroundLine(0, 790, 1300, 790, 0xff0000); //red zone line
+		//background.renderImage(getBackgroundSurface(), 0, 0, 0, 0, 1300, 800);
+		//redrawDisplay();
+
+
+		//drawBackgroundLine(0, 790, 1300, 790, 0xff0000); //red zone line
 		//top left position on screen
 		int xx = 0;
 		int yy = 120;
@@ -88,9 +95,14 @@ int Psydn1Engine::virtInitialiseObjects()
 	drawableObjectsChanged();
 	destroyOldObjects(true);
 
-	createObjectArray(2);
+	createObjectArray(3);
 	storeObjectInArray(0, new Psydn1BouncyObject(this));
 	storeObjectInArray(1, new Psydn1BarObject(this));
+	storeObjectInArray(2, new psydn1BombObject(this));
+
+	//storeObjectInArray(1, new psydn1BombObject(this));
+
+
 	setAllObjectsVisible(false);
 
 	return 0;
@@ -144,7 +156,7 @@ void Psydn1Engine::virtDrawStringsOnTop()
 
 		if (!validLoad)
 			drawForegroundString(400, 540, "Please select a non-empty slot.", 0xff5555, NULL);
-		
+
 		break;
 
 	case s_savescreen:
@@ -187,7 +199,7 @@ void Psydn1Engine::virtDrawStringsOnTop()
 			return;
 		}
 		break;
-	
+
 
 	}
 
@@ -214,7 +226,7 @@ void Psydn1Engine::virtKeyDown(int iKeyCode)
 {
 	switch (gState)
 	{
-	
+
 	case (s_main):
 		if (iKeyCode == SDLK_SPACE)
 		{
@@ -257,7 +269,7 @@ void Psydn1Engine::virtKeyDown(int iKeyCode)
 			redrawDisplay();
 		}
 		break;
-	
+
 	case (s_init):
 		if (iKeyCode == SDLK_n)
 		{
@@ -277,16 +289,16 @@ void Psydn1Engine::virtKeyDown(int iKeyCode)
 			return;
 		}
 		break;
-	
+
 	case (s_nickname):
-		
+
 		validName = true;
 
 		if (iKeyCode == SDLK_RETURN)
 		{
 			if (nameChars < 3)
 				validName = false;
-			else{
+			else {
 				gState = s_main;
 				resetGameData();
 				virtInitialiseObjects();
@@ -328,14 +340,14 @@ void Psydn1Engine::virtKeyDown(int iKeyCode)
 	case (s_loadscreen):
 		if (iKeyCode >= SDLK_1 && iKeyCode <= SDLK_5)
 		{
-			if(names[iKeyCode - SDLK_1].find("Empty") == std::string::npos)
+			if (names[iKeyCode - SDLK_1].find("Empty") == std::string::npos)
 			{
 				loadGame("saveslot" + to_string(iKeyCode - SDLK_0));
 				gState = s_main;
 				virtInitialiseObjects();
 				setAllObjectsVisible(true);
 			}
-			else			
+			else
 				validLoad = false;
 
 			lockAndSetupBackground();

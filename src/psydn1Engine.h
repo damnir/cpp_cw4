@@ -22,7 +22,7 @@ public:
 
 	void increaseTiles() { tiles++; }
 	void increaseDeaths() { deaths++; }
-	
+
 	void hitDetected() {
 		gState = s_main;
 		lockAndSetupBackground();
@@ -32,10 +32,10 @@ public:
 	SimpleImage background = ImageManager::loadImage("background.jpg", true);
 	Psydn1TileManager& GetTileManager() { return tm; }
 
-	void saveGame(std::string filename) 
+	void saveGame(std::string filename)
 	{
 		std::ofstream outfile;
-		outfile.open(filename+".txt");
+		outfile.open(filename + ".txt");
 		outfile << name << std::endl;
 
 		for (int i = 0; i < 7; i++)
@@ -58,7 +58,7 @@ public:
 	void loadGame(std::string filename)
 	{
 		std::ifstream infile;
-		infile.open(filename+".txt");
+		infile.open(filename + ".txt");
 
 		int i;
 		int j;
@@ -101,7 +101,7 @@ public:
 					if (loadName[j] == 45)
 						loadName[j] = ' ';
 
-			names.push_back("[" + std::to_string(i) + "] " +loadName);
+			names.push_back("[" + std::to_string(i) + "] " + loadName);
 			std::cout << loadName;
 			infile.close();
 		}
@@ -121,10 +121,10 @@ public:
 	int nameChars = 0;
 	bool validName = true;
 	bool validLoad = true;
-	
+
 	Psydn1TileManager tm;
 
-	enum State {s_init, s_main, s_paused, s_nickname, s_loadscreen, s_savescreen};
+	enum State { s_init, s_main, s_paused, s_nickname, s_loadscreen, s_savescreen };
 	State gState;
 
 private:

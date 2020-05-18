@@ -33,7 +33,7 @@ public:
 		// Speed
 		m_dSX = 3;
 		m_dSY = 5;
-		
+
 		setVisible(true);
 	}
 
@@ -47,8 +47,6 @@ public:
 			m_iCurrentScreenX + m_iDrawWidth / 2 - 1,
 			m_iCurrentScreenY + m_iDrawHeight / 2 - 1,
 			0x0022aa);
-
-
 	}
 
 	void virtDoUpdate(int iCurrentTime) override
@@ -70,15 +68,13 @@ public:
 		int yy = 120;
 
 		bool deadTile = false;
-		
 
-		if (tm.isValidTilePosition(pObject->getXCentre(), pObject->getYCentre()-60))
+
+		if (tm.isValidTilePosition(pObject->getXCentre(), pObject->getYCentre() - 60))
 		{
 			int mapX = tm.getMapXForScreenX(pObject->getXCentre()); // X pos
-			int mapY = tm.getMapYForScreenY(pObject->getYCentre()-60); // Y pos
+			int mapY = tm.getMapYForScreenY(pObject->getYCentre() - 60); // Y pos
 			int value = tm.getMapValue(mapX, mapY);
-
-			//printf("MapX value: %d MapY value: %d\n", mapX, mapY);
 
 			if (value == 0)
 				deadTile = true;
@@ -88,20 +84,20 @@ public:
 			case true:
 				break;
 			case false:
+
+				m_dY = -m_iStartDrawPosY + pObject->getYCentre() + 20;
+				m_dSY = -m_dSY;
+
 				if (value == 1)
 				{
 					tm.setAndRedrawMapValueAt(mapX, mapY, 0, m_pMainEngine, m_pMainEngine->getBackgroundSurface());
-					//tm.redrawTile(m_pMainEngine, m_pMainEngine->getBackgroundSurface(), mapX, mapY, xx+tm.getTileWidth()*mapX, yy+tm.getTileHeight()*mapY);
 					m_pMainEngine->increaseTiles();
 				}
 				if (value == 2)
 				{
 					tm.setAndRedrawMapValueAt(mapX, mapY, 1, m_pMainEngine, m_pMainEngine->getBackgroundSurface());
 				}
-				m_dY = -m_iStartDrawPosY + pObject->getYCentre() + 20;
-				m_dSY = -m_dSY;
 				m_pMainEngine->hitDetected();
-
 			}
 		}
 
@@ -141,6 +137,28 @@ public:
 			m_dY = getEngine()->getWindowHeight() - 1 - m_iStartDrawPosY - m_iDrawHeight - 50;
 			if (m_dSY > 0)
 				m_dSY = -m_dSY;
+			if (pObject2->getXCentre() < pObject->getXCentre()) //right side of the bar
+			{
+				if (pObject->getXCentre() < pObject2->getXCentre() + 30)
+					m_dSX = 2;
+				else if (pObject->getXCentre() < pObject2->getXCentre() + 75)
+					m_dSX = 2.5;
+				else
+					m_dSX = 3;
+
+			}
+			if (pObject2->getXCentre() > pObject->getXCentre()) //left side of the bar
+			{
+				if (pObject->getXCentre() > pObject2->getXCentre() - 30)
+					m_dSX = -2;
+
+				else if (pObject->getXCentre() > pObject2->getXCentre() - 75)
+					m_dSX = -2.8;
+				else
+					m_dSX = -3.5;
+			}
+			std::cout << "Ball X: " << pObject2->getXCentre() << " Bar X: " << pObject->getXCentre() + 15 << std::endl;
+			std::cout << "Speed: " << m_dSX << std::endl;
 		}
 
 		// set current position

@@ -1,5 +1,7 @@
 #pragma once
 #include "DisplayableObject.h"
+#include "ImageObject.h"
+
 #include "Psydn1Engine.h"
 
 class Psydn1BarObject :
@@ -12,6 +14,8 @@ public:
 
 	void virtDraw() override;
 	void virtDoUpdate(int iCurrentTime) override;
+	SimpleImage image = ImageManager::loadImage("bar_object.png", true);
+
 
 };
 
