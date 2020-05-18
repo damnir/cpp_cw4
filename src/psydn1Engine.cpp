@@ -5,7 +5,7 @@
 #include "Psydn1BouncyObject.h"
 #include "Psydn1BarObject.h"
 #include "psydn1BombObject.h"
-
+#include "psydn1Animator.h"
 
 #include <iostream>
 
@@ -98,7 +98,9 @@ int Psydn1Engine::virtInitialiseObjects()
 	createObjectArray(3);
 	storeObjectInArray(0, new Psydn1BouncyObject(this));
 	storeObjectInArray(1, new Psydn1BarObject(this));
-	storeObjectInArray(2, new psydn1BombObject(this));
+	//storeObjectInArray(2, new psydn1BombObject(this));
+	storeObjectInArray(2, new psydn1Animator(this));
+
 
 	//storeObjectInArray(1, new psydn1BombObject(this));
 

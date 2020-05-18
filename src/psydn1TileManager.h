@@ -1,6 +1,7 @@
 #pragma once
 
 #include "TileManager.h"
+#include "psydn1Animator.h"
 #include <vector>
 
 
@@ -10,6 +11,8 @@ class Psydn1TileManager :
 public:
 	Psydn1TileManager();
 	~Psydn1TileManager();
+
+	
 
 	SimpleImage image = ImageManager::loadImage("brick.png", false);
 	SimpleImage image2 = ImageManager::loadImage("brick2.png", false);

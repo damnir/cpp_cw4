@@ -3,7 +3,9 @@
 #include "psydn1BombObject.h"
 
 psydn1BombObject::psydn1BombObject(BaseEngine* pEngine)
-	: DisplayableObject(550, 500, pEngine, 300, 300, true) {}
+	: DisplayableObject(550, 500, pEngine, 300, 300, true) {
+	bomb = images[x];
+}
 
 psydn1BombObject::~psydn1BombObject() {}
 
@@ -32,12 +34,15 @@ void psydn1BombObject::virtDraw()
 
 void psydn1BombObject::virtDoUpdate(int iCurrentTime)
 {
+	if (getEngine()->isPaused())
+		return;
 	getEngine()->getBackgroundSurface()->mySDLLockSurface();
 
 	bomb = images[x];
 	getEngine()->lockAndSetupBackground();
 	redrawDisplay();
 	getEngine()->getBackgroundSurface()->mySDLUnlockSurface();
+
 
 	frames--;
 	if (frames == 0)
@@ -49,25 +54,14 @@ void psydn1BombObject::virtDoUpdate(int iCurrentTime)
 		}
 
 		frames = 10;
+		light.renderImageWithMaskAndTransparency(m_pEngine->getForegroundSurface(),
+			0,
+			0,
+			0,
+			0,
+			296, 675, 0, 100);
+		std::cout << "rendered";
 	}
-
-	bool thing = true;
-	if (getEngine()->isPaused())
-		return;
-
-	if (getEngine()->isKeyPressed(SDLK_UP))
-	{
-		m_iCurrentScreenX -= 5;
-	}
-
-	if (getEngine()->isKeyPressed(SDLK_DOWN))
-		m_iCurrentScreenX += 5;
-
-
-	if (m_iCurrentScreenX < 0)
-		m_iCurrentScreenX = 0;
-	if (m_iCurrentScreenX >= getEngine()->getWindowWidth() - m_iDrawWidth)
-		m_iCurrentScreenX = getEngine()->getWindowWidth() - m_iDrawWidth;
 
 	this->redrawDisplay();
 }

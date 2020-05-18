@@ -46,7 +46,7 @@ public:
 			m_iCurrentScreenY - m_iDrawHeight / 2 + 1,
 			m_iCurrentScreenX + m_iDrawWidth / 2 - 1,
 			m_iCurrentScreenY + m_iDrawHeight / 2 - 1,
-			0x0022aa);
+			0x009cff);
 	}
 
 	void virtDoUpdate(int iCurrentTime) override
@@ -70,10 +70,10 @@ public:
 		bool deadTile = false;
 
 
-		if (tm.isValidTilePosition(pObject->getXCentre(), pObject->getYCentre() - 60))
+		if (tm.isValidTilePosition(pObject->getXCentre(), pObject->getYCentre() - 40))
 		{
 			int mapX = tm.getMapXForScreenX(pObject->getXCentre()); // X pos
-			int mapY = tm.getMapYForScreenY(pObject->getYCentre() - 60); // Y pos
+			int mapY = tm.getMapYForScreenY(pObject->getYCentre() - 40); // Y pos
 			int value = tm.getMapValue(mapX, mapY);
 
 			if (value == 0)

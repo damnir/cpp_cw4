@@ -121,6 +121,7 @@
     <ClInclude Include="JigsawDemo.h" />
     <ClInclude Include="JigsawPiece.h" />
     <ClInclude Include="MappableImageObject.h" />
+    <ClInclude Include="psydn1Animator.h" />
     <ClInclude Include="psydn1BarObject.h" />
     <ClInclude Include="psydn1BombObject.h" />
     <ClInclude Include="psydn1BouncyObject.h" />
@@ -160,6 +161,7 @@
     <ClCompile Include="DisplayableObject.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="ImageMappingDemo.cpp" />
+    <ClCompile Include="psydn1Animator.cpp" />
     <ClCompile Include="psydn1BarObject.cpp" />
     <ClCompile Include="psydn1BombObject.cpp" />
     <ClCompile Include="psydn1Engine.cpp" />

@@ -18,7 +18,7 @@ void Psydn1BarObject::virtDraw()
 		0,
 		m_iCurrentScreenX,
 		m_iCurrentScreenY,
-		200, 30, 0, 100);
+		m_iDrawWidth, m_iDrawHeight, 0, 100);
 }
 
 void Psydn1BarObject::virtDoUpdate(int iCurrentTime)
@@ -26,6 +26,27 @@ void Psydn1BarObject::virtDoUpdate(int iCurrentTime)
 	bool thing = true;
 	if (getEngine()->isPaused())
 		return;
+
+
+
+	frames--;
+	if (frames == 0)
+	{
+		
+		getEngine()->getBackgroundSurface()->mySDLLockSurface();
+		image = images[x];
+		getEngine()->getBackgroundSurface()->mySDLUnlockSurface();
+		
+
+		x--;
+		if (x == 0)
+		{
+			x = 9;
+		}
+
+		frames = 5;
+
+	}
 
 	if (getEngine()->isKeyPressed(SDLK_LEFT))
 		m_iCurrentScreenX -= 6;

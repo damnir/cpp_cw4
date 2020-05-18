@@ -13,12 +13,12 @@ public:
 
 	void virtDraw() override;
 	void virtDoUpdate(int iCurrentTime) override;
-	SimpleImage image = ImageManager::loadImage("brick2.png", true);
-	SimpleImage images[6] = { (ImageManager::loadImage("lightningf1.png", true)), 
-		(ImageManager::loadImage("lightningf2.png", true)),
-		(ImageManager::loadImage("lightningf3.png", true)) ,
-		(ImageManager::loadImage("lightningf4.png", true)) ,
-		(ImageManager::loadImage("lightningf5.png", true))};
+	SimpleImage light = ImageManager::loadImage("lightningm1.png", false);
+	SimpleImage images[6] = { (ImageManager::loadImage("lightningf1.png", false)), 
+		(ImageManager::loadImage("lightningf2.png", false)),
+		(ImageManager::loadImage("lightningf3.png", false)) ,
+		(ImageManager::loadImage("lightningf4.png", false)) ,
+		(ImageManager::loadImage("lightningf5.png", false))};
 	SimpleImage bomb;
 
 	int x = 0;
